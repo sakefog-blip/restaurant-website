@@ -1,180 +1,108 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Half Fried</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins;
-scroll-behavior:smooth;
-}
-
 body{
-background:#0a0000;
+font-family:Arial;
+margin:0;
+background:#0b0000;
 color:white;
-}
-
-/* SPLASH */
-
-#splash{
-position:fixed;
-width:100%;
-height:100vh;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:45px;
-font-weight:800;
-animation:fadeout 3s forwards;
-}
-
-@keyframes fadeout{
-0%{opacity:1}
-90%{opacity:1}
-100%{opacity:0;visibility:hidden}
 }
 
 /* NAVBAR */
 
 nav{
-position:fixed;
-top:0;
-width:100%;
 display:flex;
 justify-content:space-between;
-padding:20px 40px;
-background:rgba(0,0,0,0.5);
-backdrop-filter:blur(10px);
-z-index:1000;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin:0 10px;
-}
-
-/* HERO */
-
-.hero{
-height:100vh;
-background-image:url("https://images.unsplash.com/photo-1550547660-d9450f859349");
-background-attachment:fixed;
-background-size:cover;
-display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
+padding:15px 30px;
+background:#120000;
 }
 
-.hero h1{
-font-size:70px;
-font-weight:800;
+nav img{
+height:40px;
+}
+
+nav button{
+padding:10px 20px;
+background:red;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+/* BRANCH */
+
+.branches{
+text-align:center;
+padding:80px 20px;
+}
+
+.branch{
+background:#1a0000;
+margin:20px auto;
+padding:30px;
+max-width:400px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.branch:hover{
+background:#300000;
 }
 
 /* MENU */
 
 .menu{
-padding:120px 10%;
-text-align:center;
+display:none;
+padding:40px;
 }
 
-.menu-grid{
-display:flex;
-flex-wrap:wrap;
-gap:30px;
-justify-content:center;
-margin-top:40px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-padding:20px;
-width:250px;
-border-radius:15px;
-transition:0.4s;
-}
-
-.card:hover{
-transform:scale(1.05);
-}
-
-.card img{
-width:100%;
-border-radius:10px;
-}
-
-/* GALLERY */
-
-.gallery{
-padding:120px 10%;
-text-align:center;
-}
-
-.gallery img{
-width:300px;
-margin:10px;
-border-radius:10px;
-transition:0.4s;
-}
-
-.gallery img:hover{
-transform:scale(1.1);
-}
-
-/* BOOK */
-
-.book{
-padding:120px 10%;
-text-align:center;
-}
-
-.book input{
-padding:12px;
-margin:10px;
-width:250px;
-}
-
-.book button{
-padding:12px 30px;
-background:red;
-border:none;
-color:white;
-}
-
-/* CART */
-
-#cart{
-position:fixed;
-bottom:20px;
-left:20px;
-background:black;
+background:#1a0000;
 padding:15px;
 border-radius:10px;
 }
 
-/* WHATSAPP */
+.card img{
+width:100%;
+border-radius:8px;
+}
 
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-padding:15px 20px;
-border-radius:50px;
+.card button{
+margin-top:10px;
+background:red;
+border:none;
 color:white;
-text-decoration:none;
+padding:8px 15px;
+cursor:pointer;
+}
+
+/* CART PAGE */
+
+#cartPage{
+display:none;
+padding:40px;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+background:#1a0000;
+padding:10px;
+margin:10px 0;
 }
 
 </style>
@@ -183,121 +111,147 @@ text-decoration:none;
 
 <body>
 
-<div id="splash">
-
-HALF FRIED
-
-</div>
-
 <nav>
 
-<div>HALF FRIED</div>
+<img src="logo.png">
 
-<div>
-
-<a href="#menu">Menu</a>
-<a href="#gallery">Gallery</a>
-<a href="#book">Book</a>
-
-</div>
+<button onclick="openCart()">Cart (<span id="count">0</span>)</button>
 
 </nav>
 
-<section class="hero">
+<div class="branches" id="branches">
 
-<h1>HALF FRIED</h1>
+<h1>Select Branch</h1>
 
-<p>Best Burgers • Fast Food • Chinese</p>
+<div class="branch" onclick="openRestaurant()">
+Half Fried – Lado Sarai Delhi
+</div>
 
-</section>
+<div class="branch" onclick="openRestaurant()">
+Half Fried – Mayur Vihar Delhi
+</div>
 
-<section class="menu" id="menu">
+<div class="branch" onclick="openRestaurant()">
+Half Fried – Mumbai
+</div>
+
+</div>
+
+<div class="menu" id="menu">
 
 <h2>Menu</h2>
 
-<div class="menu-grid">
+<div class="grid">
 
 <div class="card">
-
 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
-
 <h3>Burger</h3>
-
 <p>₹149</p>
-
-<button onclick="add()">Add</button>
-
+<button onclick="add('Burger',149)">Add</button>
 </div>
 
 <div class="card">
-
 <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-
 <h3>Pizza</h3>
-
 <p>₹299</p>
-
-<button onclick="add()">Add</button>
-
+<button onclick="add('Pizza',299)">Add</button>
 </div>
 
 <div class="card">
-
 <img src="https://images.unsplash.com/photo-1601924638867-3ec2f8a33d3b">
-
 <h3>Noodles</h3>
-
 <p>₹199</p>
-
-<button onclick="add()">Add</button>
-
+<button onclick="add('Noodles',199)">Add</button>
 </div>
 
 </div>
 
-</section>
-
-<section class="gallery" id="gallery">
-
-<h2>Food Gallery</h2>
-
-<img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
-
-<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
-
-<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-
-</section>
-
-<section class="book" id="book">
-
-<h2>Book Table</h2>
-
-<input placeholder="Name"><br>
-
-<input placeholder="Mobile"><br>
-
-<button>Book</button>
-
-</section>
-
-<div id="cart">
-
-Orders: <span id="num">0</span>
-
 </div>
 
-<a class="whatsapp" href="https://wa.me/919999999999">Order</a>
+<div id="cartPage">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<button onclick="closeCart()">Back</button>
+
+</div>
 
 <script>
 
-let n=0;
+let cart=[]
+let total=0
 
-function add(){
+function openRestaurant(){
 
-n++;
+document.getElementById("branches").style.display="none"
 
-document.getElementById("num").innerText=n;
+document.getElementById("menu").style.display="block"
+
+}
+
+function add(name,price){
+
+cart.push({name,price})
+
+total+=price
+
+document.getElementById("count").innerText=cart.length
+
+}
+
+function openCart(){
+
+document.getElementById("menu").style.display="none"
+
+document.getElementById("cartPage").style.display="block"
+
+renderCart()
+
+}
+
+function closeCart(){
+
+document.getElementById("cartPage").style.display="none"
+
+document.getElementById("menu").style.display="block"
+
+}
+
+function renderCart(){
+
+let html=""
+
+cart.forEach((item,i)=>{
+
+html+=`<div class="cart-item">
+
+${item.name} - ₹${item.price}
+
+<button onclick="removeItem(${i})">Remove</button>
+
+</div>`
+
+})
+
+document.getElementById("cartItems").innerHTML=html
+
+document.getElementById("total").innerText=total
+
+}
+
+function removeItem(i){
+
+total-=cart[i].price
+
+cart.splice(i,1)
+
+document.getElementById("count").innerText=cart.length
+
+renderCart()
 
 }
 
