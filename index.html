@@ -32,18 +32,11 @@ z-index:2;
 h1{
 font-size:55px;
 font-family:Pacifico;
-animation:fade 2s ease-in-out;
 }
 
 h2{
 font-size:35px;
 margin-top:20px;
-animation:fade 2s ease-in-out;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
 }
 
 button{
@@ -53,7 +46,6 @@ margin:10px;
 border:none;
 border-radius:10px;
 cursor:pointer;
-transition:0.3s;
 }
 
 #yes{
@@ -104,9 +96,9 @@ opacity:0;
 
 <div class="container">
 
-<h1 id="hello">Hey Ankit 👋</h1>
+<h1 id="hello">Hey Love ❤️</h1>
 
-<h2 id="question" class="hidden">Do you love me? ❤️</h2>
+<h2 id="question" class="hidden">Do you love me?</h2>
 
 <div id="buttons" class="hidden">
 
@@ -122,8 +114,6 @@ opacity:0;
 
 <script>
 
-/* show question */
-
 setTimeout(()=>{
 
 document.getElementById("question").classList.remove("hidden")
@@ -131,25 +121,30 @@ document.getElementById("buttons").classList.remove("hidden")
 
 },2500)
 
-/* YES click */
+/* YES */
 
 function yesClick(){
 
 document.getElementById("result").classList.remove("hidden")
 
 document.getElementById("result").innerHTML=
+
 "Yay! ❤️<br><br>\
-You just made my world brighter ✨<br>\
+You just made my day brighter ✨<br>\
 Are you Google? Because you have everything I was searching for 😍<br><br>\
 If loving you was a job, I'd never take a day off 💖"
 
 }
 
-/* NO run away */
+/* NO button run away */
 
 let no=document.getElementById("no")
 
+let attempts=0
+
 no.addEventListener("mouseover",function(){
+
+if(attempts<50){
 
 let x=Math.random()*window.innerWidth-100
 let y=Math.random()*window.innerHeight-100
@@ -157,9 +152,13 @@ let y=Math.random()*window.innerHeight-100
 no.style.left=x+"px"
 no.style.top=y+"px"
 
+attempts++
+
+}
+
 })
 
-/* falling hearts */
+/* hearts */
 
 function createHeart(){
 
