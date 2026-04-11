@@ -9,11 +9,13 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#111;
 color:white;
 text-align:center;
 }
+
+/* Hero Section */
 
 .hero{
 padding:120px 20px;
@@ -21,6 +23,7 @@ padding:120px 20px;
 
 .hero h1{
 font-size:50px;
+margin-bottom:10px;
 }
 
 button{
@@ -32,7 +35,15 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 margin-top:20px;
+transition:transform 0.3s, background 0.3s;
 }
+
+button:hover{
+transform:scale(1.1);
+background:#ff3333;
+}
+
+/* Menu Section */
 
 .menu{
 margin-top:80px;
@@ -50,7 +61,65 @@ margin-top:40px;
 background:#222;
 padding:20px;
 border-radius:10px;
-width:200px;
+width:220px;
+transition:transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover{
+transform:scale(1.1);
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* Food Images */
+
+.food-images{
+margin-top:100px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+padding-bottom:80px;
+}
+
+.food-images img{
+width:260px;
+border-radius:12px;
+transition:transform 0.4s;
+}
+
+.food-images img:hover{
+transform:scale(1.1) rotate(2deg);
+}
+
+/* Scroll Animation */
+
+.reveal{
+opacity:0;
+transform:translateY(60px);
+transition:all 0.8s ease;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* Mobile Responsive */
+
+@media (max-width:600px){
+
+.hero h1{
+font-size:36px;
+}
+
+.card{
+width:90%;
+}
+
+.food-images img{
+width:90%;
+}
+
 }
 
 </style>
@@ -58,6 +127,8 @@ width:200px;
 </head>
 
 <body>
+
+<!-- Hero Section -->
 
 <div class="hero">
 
@@ -69,7 +140,9 @@ width:200px;
 
 </div>
 
-<div class="menu">
+<!-- Menu -->
+
+<div class="menu reveal">
 
 <h2 style="font-size:35px;">Our Menu</h2>
 
@@ -96,6 +169,62 @@ width:200px;
 </div>
 
 </div>
+
+<!-- Food Images -->
+
+<div class="food-images reveal">
+
+<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
+
+<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+
+<img src="https://images.unsplash.com/photo-1601924638867-3ec2f8a33d3b">
+
+</div>
+
+<!-- WhatsApp Button -->
+
+<a href="https://wa.me/919999999999" target="_blank" 
+style="
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:15px 20px;
+border-radius:50px;
+text-decoration:none;
+font-size:18px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+">
+Order on WhatsApp
+</a>
+
+<!-- Scroll Animation Script -->
+
+<script>
+
+function reveal(){
+
+var reveals=document.querySelectorAll(".reveal");
+
+for(var i=0;i<reveals.length;i++){
+
+var windowHeight=window.innerHeight;
+var elementTop=reveals[i].getBoundingClientRect().top;
+var elementVisible=100;
+
+if(elementTop < windowHeight - elementVisible){
+reveals[i].classList.add("active");
+}
+
+}
+
+}
+
+window.addEventListener("scroll",reveal);
+
+</script>
 
 </body>
 
