@@ -1,97 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-<title>Half Fried Restaurant</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Half Fried Restaurant</title>
 
 <style>
 
-body{
+/* RESET */
+
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial, sans-serif;
-background:#111;
-color:white;
-text-align:center;
 }
 
-/* Hero Section */
+body{
+background:#000;
+color:white;
+line-height:1.6;
+}
+
+/* HERO SECTION */
 
 .hero{
-padding:120px 20px;
+height:100vh;
+background-image:url("https://images.unsplash.com/photo-1550547660-d9450f859349");
+background-size:cover;
+background-position:center;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
 }
 
 .hero h1{
-font-size:50px;
-margin-bottom:10px;
+font-size:60px;
+letter-spacing:2px;
 }
 
-button{
+.hero p{
+font-size:22px;
+margin-top:10px;
+}
+
+.hero button{
+margin-top:25px;
 padding:15px 30px;
 font-size:18px;
 background:red;
-color:white;
 border:none;
+color:white;
 border-radius:8px;
 cursor:pointer;
-margin-top:20px;
-transition:transform 0.3s, background 0.3s;
+transition:0.3s;
 }
 
-button:hover{
+.hero button:hover{
 transform:scale(1.1);
 background:#ff3333;
 }
 
-/* Menu Section */
+/* MENU SECTION */
 
 .menu{
-margin-top:80px;
+padding:80px 20px;
+background:#111;
+text-align:center;
+}
+
+.menu h2{
+font-size:36px;
+margin-bottom:40px;
 }
 
 .menu-container{
 display:flex;
 justify-content:center;
-gap:20px;
 flex-wrap:wrap;
-margin-top:40px;
+gap:25px;
 }
 
 .card{
 background:#222;
-padding:20px;
+padding:25px;
+width:230px;
 border-radius:10px;
-width:220px;
-transition:transform 0.3s, box-shadow 0.3s;
+transition:0.3s;
 }
 
 .card:hover{
-transform:scale(1.1);
+transform:scale(1.08);
 box-shadow:0 10px 30px rgba(0,0,0,0.6);
 }
 
-/* Food Images */
+.card h3{
+margin-bottom:10px;
+}
 
-.food-images{
-margin-top:100px;
+/* FOOD GALLERY */
+
+.gallery{
+padding:80px 20px;
+text-align:center;
+background:#000;
+}
+
+.gallery h2{
+font-size:36px;
+margin-bottom:40px;
+}
+
+.gallery-container{
 display:flex;
 justify-content:center;
-gap:20px;
 flex-wrap:wrap;
-padding-bottom:80px;
+gap:20px;
 }
 
-.food-images img{
-width:260px;
-border-radius:12px;
-transition:transform 0.4s;
+.gallery img{
+width:300px;
+border-radius:10px;
+transition:0.4s;
 }
 
-.food-images img:hover{
+.gallery img:hover{
 transform:scale(1.1) rotate(2deg);
 }
 
-/* Scroll Animation */
+/* SCROLL ANIMATION */
 
 .reveal{
 opacity:0;
@@ -104,20 +145,36 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* Mobile Responsive */
+/* WHATSAPP BUTTON */
 
-@media (max-width:600px){
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:15px 20px;
+border-radius:50px;
+text-decoration:none;
+font-size:18px;
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
 
 .hero h1{
-font-size:36px;
+font-size:40px;
 }
 
-.card{
+.gallery img{
 width:90%;
 }
 
-.food-images img{
-width:90%;
+.menu-container{
+flex-direction:column;
+align-items:center;
 }
 
 }
@@ -128,23 +185,21 @@ width:90%;
 
 <body>
 
-<!-- Hero Section -->
+<!-- HERO -->
 
-<div class="hero">
+<section class="hero">
 
 <h1>HALF FRIED</h1>
-
 <p>Best Burgers • Fast Food • Chinese</p>
-
 <button>Order Now</button>
 
-</div>
+</section>
 
-<!-- Menu -->
+<!-- MENU -->
 
-<div class="menu reveal">
+<section class="menu reveal">
 
-<h2 style="font-size:35px;">Our Menu</h2>
+<h2>Our Menu</h2>
 
 <div class="menu-container">
 
@@ -168,39 +223,31 @@ width:90%;
 
 </div>
 
-</div>
+</section>
 
-<!-- Food Images -->
+<!-- GALLERY -->
 
-<div class="food-images reveal">
+<section class="gallery reveal">
+
+<h2>Our Food</h2>
+
+<div class="gallery-container">
 
 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
-
 <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-
 <img src="https://images.unsplash.com/photo-1601924638867-3ec2f8a33d3b">
 
 </div>
 
-<!-- WhatsApp Button -->
+</section>
 
-<a href="https://wa.me/919999999999" target="_blank" 
-style="
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-color:white;
-padding:15px 20px;
-border-radius:50px;
-text-decoration:none;
-font-size:18px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-">
+<!-- WHATSAPP BUTTON -->
+
+<a class="whatsapp" href="https://wa.me/919999999999" target="_blank">
 Order on WhatsApp
 </a>
 
-<!-- Scroll Animation Script -->
+<!-- SCROLL SCRIPT -->
 
 <script>
 
@@ -212,10 +259,12 @@ for(var i=0;i<reveals.length;i++){
 
 var windowHeight=window.innerHeight;
 var elementTop=reveals[i].getBoundingClientRect().top;
-var elementVisible=100;
+var elementVisible=120;
 
 if(elementTop < windowHeight - elementVisible){
+
 reveals[i].classList.add("active");
+
 }
 
 }
@@ -227,5 +276,4 @@ window.addEventListener("scroll",reveal);
 </script>
 
 </body>
-
 </html>
