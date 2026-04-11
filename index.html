@@ -5,7 +5,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>For You</title>
+<title>For You ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
 
@@ -30,36 +30,35 @@ z-index:2;
 }
 
 h1{
-font-size:55px;
+font-size:60px;
 font-family:Pacifico;
+animation:fade 2s;
 }
 
 h2{
 font-size:35px;
-margin-top:20px;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 button{
-padding:15px 30px;
-font-size:20px;
+padding:15px 35px;
+font-size:22px;
 margin:10px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
 }
 
 #yes{
 background:#00e676;
-color:white;
-}
-
-#yes:hover{
-transform:scale(1.1);
 }
 
 #no{
 background:#ff1744;
-color:white;
 position:absolute;
 }
 
@@ -68,7 +67,7 @@ display:none;
 }
 
 .message{
-font-size:24px;
+font-size:26px;
 margin-top:20px;
 }
 
@@ -76,7 +75,7 @@ margin-top:20px;
 
 .heart{
 position:absolute;
-top:-50px;
+top:-20px;
 font-size:24px;
 animation:fall linear forwards;
 }
@@ -84,6 +83,23 @@ animation:fall linear forwards;
 @keyframes fall{
 to{
 transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* confetti */
+
+.confetti{
+position:absolute;
+width:10px;
+height:10px;
+background:white;
+animation:explode 2s linear forwards;
+}
+
+@keyframes explode{
+to{
+transform:translateY(300px) rotate(720deg);
 opacity:0;
 }
 }
@@ -102,7 +118,7 @@ opacity:0;
 
 <div id="buttons" class="hidden">
 
-<button id="yes" onclick="yesClick()">YES ❤️</button>
+<button id="yes" onclick="yesClick()">YES 💖</button>
 
 <button id="no">NO 😅</button>
 
@@ -114,6 +130,8 @@ opacity:0;
 
 <script>
 
+/* show question */
+
 setTimeout(()=>{
 
 document.getElementById("question").classList.remove("hidden")
@@ -121,7 +139,7 @@ document.getElementById("buttons").classList.remove("hidden")
 
 },2500)
 
-/* YES */
+/* YES click */
 
 function yesClick(){
 
@@ -130,9 +148,12 @@ document.getElementById("result").classList.remove("hidden")
 document.getElementById("result").innerHTML=
 
 "Yay! ❤️<br><br>\
-You just made my day brighter ✨<br>\
-Are you Google? Because you have everything I was searching for 😍<br><br>\
-If loving you was a job, I'd never take a day off 💖"
+You just made my heart smile ✨<br><br>\
+Are you Google? Because you have everything I've been searching for 😍<br><br>\
+If loving you was a job, I'd never take a day off 💖<br><br>\
+Life feels brighter with you in it ❤️"
+
+createConfetti()
 
 }
 
@@ -158,7 +179,7 @@ attempts++
 
 })
 
-/* hearts */
+/* hearts animation */
 
 function createHeart(){
 
@@ -175,12 +196,42 @@ heart.style.animationDuration=(Math.random()*3+3)+"s"
 document.body.appendChild(heart)
 
 setTimeout(()=>{
+
 heart.remove()
+
 },6000)
 
 }
 
 setInterval(createHeart,300)
+
+/* confetti fireworks */
+
+function createConfetti(){
+
+for(let i=0;i<80;i++){
+
+let confetti=document.createElement("div")
+
+confetti.classList.add("confetti")
+
+confetti.style.left=Math.random()*100+"vw"
+
+confetti.style.top=Math.random()*50+"vh"
+
+confetti.style.background="hsl("+Math.random()*360+",100%,50%)"
+
+document.body.appendChild(confetti)
+
+setTimeout(()=>{
+
+confetti.remove()
+
+},2000)
+
+}
+
+}
 
 </script>
 
