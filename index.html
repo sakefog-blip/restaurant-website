@@ -1,46 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Half Fried Restaurant</title>
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
-/* RESET */
+<style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
 }
 
 body{
-background:#000;
+background:#0a0000;
 color:white;
-line-height:1.6;
 }
 
-/* HERO SECTION */
+/* NAVBAR */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 50px;
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+nav h2{
+color:#ff3b3b;
+font-weight:800;
+}
+
+nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+font-weight:600;
+}
+
+/* HERO PARALLAX */
 
 .hero{
+
 height:100vh;
+
 background-image:url("https://images.unsplash.com/photo-1550547660-d9450f859349");
+
+background-attachment:fixed;
+
 background-size:cover;
+
 background-position:center;
+
 display:flex;
-flex-direction:column;
+
 justify-content:center;
+
 align-items:center;
+
 text-align:center;
-padding:20px;
+
+flex-direction:column;
+
 }
 
 .hero h1{
-font-size:60px;
-letter-spacing:2px;
+font-size:70px;
+font-weight:800;
 }
 
 .hero p{
@@ -49,82 +94,104 @@ margin-top:10px;
 }
 
 .hero button{
-margin-top:25px;
-padding:15px 30px;
-font-size:18px;
-background:red;
+margin-top:30px;
+padding:15px 35px;
 border:none;
+background:#ff3b3b;
 color:white;
-border-radius:8px;
+font-size:18px;
+border-radius:10px;
 cursor:pointer;
 transition:0.3s;
 }
 
 .hero button:hover{
 transform:scale(1.1);
-background:#ff3333;
 }
 
-/* MENU SECTION */
+/* SECTION */
 
-.menu{
-padding:80px 20px;
-background:#111;
+section{
+padding:100px 10%;
 text-align:center;
 }
 
-.menu h2{
-font-size:36px;
-margin-bottom:40px;
-}
+/* GLASSMORPHISM CARDS */
 
 .menu-container{
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:25px;
+gap:30px;
+margin-top:50px;
 }
 
 .card{
-background:#222;
-padding:25px;
-width:230px;
-border-radius:10px;
-transition:0.3s;
+
+background:rgba(255,255,255,0.05);
+
+backdrop-filter:blur(10px);
+
+border-radius:15px;
+
+padding:30px;
+
+width:250px;
+
+transition:0.4s;
+
 }
 
 .card:hover{
-transform:scale(1.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
+transform:translateY(-10px) scale(1.05);
+box-shadow:0 10px 30px rgba(255,0,0,0.3);
 }
 
-.card h3{
-margin-bottom:10px;
+.card img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
 }
 
-/* FOOD GALLERY */
+/* PARALLAX FOOD SECTION */
+
+.food-parallax{
+
+height:400px;
+
+background-image:url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092");
+
+background-attachment:fixed;
+
+background-size:cover;
+
+background-position:center;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:40px;
+
+font-weight:800;
+
+}
+
+/* GALLERY */
 
 .gallery{
-padding:80px 20px;
-text-align:center;
-background:#000;
-}
-
-.gallery h2{
-font-size:36px;
-margin-bottom:40px;
-}
-
-.gallery-container{
 display:flex;
-justify-content:center;
 flex-wrap:wrap;
 gap:20px;
+justify-content:center;
+margin-top:40px;
 }
 
 .gallery img{
-width:300px;
-border-radius:10px;
+width:280px;
+border-radius:12px;
 transition:0.4s;
 }
 
@@ -132,12 +199,36 @@ transition:0.4s;
 transform:scale(1.1) rotate(2deg);
 }
 
+/* ORDER BUTTON */
+
+.whatsapp{
+
+position:fixed;
+
+bottom:20px;
+
+right:20px;
+
+background:#25D366;
+
+color:white;
+
+padding:15px 20px;
+
+border-radius:50px;
+
+text-decoration:none;
+
+font-weight:600;
+
+}
+
 /* SCROLL ANIMATION */
 
 .reveal{
 opacity:0;
-transform:translateY(60px);
-transition:all 0.8s ease;
+transform:translateY(80px);
+transition:1s;
 }
 
 .reveal.active{
@@ -145,36 +236,25 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* WHATSAPP BUTTON */
-
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-color:white;
-padding:15px 20px;
-border-radius:50px;
-text-decoration:none;
-font-size:18px;
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
-
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 
 @media(max-width:768px){
+
+nav{
+padding:15px 20px;
+}
 
 .hero h1{
 font-size:40px;
 }
 
-.gallery img{
-width:90%;
-}
-
 .menu-container{
 flex-direction:column;
 align-items:center;
+}
+
+.gallery img{
+width:90%;
 }
 
 }
@@ -185,69 +265,109 @@ align-items:center;
 
 <body>
 
+<nav>
+
+<h2>HALF FRIED</h2>
+
+<ul>
+
+<li><a href="#home">Home</a></li>
+
+<li><a href="#menu">Menu</a></li>
+
+<li><a href="#gallery">Gallery</a></li>
+
+</ul>
+
+</nav>
+
 <!-- HERO -->
 
-<section class="hero">
+<section class="hero" id="home">
 
 <h1>HALF FRIED</h1>
-<p>Best Burgers • Fast Food • Chinese</p>
+
+<p>Luxury Burgers • Fast Food • Chinese</p>
+
 <button>Order Now</button>
 
 </section>
 
 <!-- MENU -->
 
-<section class="menu reveal">
+<section id="menu" class="reveal">
 
-<h2>Our Menu</h2>
+<h2>Our Special Menu</h2>
 
 <div class="menu-container">
 
 <div class="card">
-<h3>Burger</h3>
-<p>Juicy grilled burger with cheese</p>
+
+<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
+
+<h3>Cheese Burger</h3>
+
 <p>₹149</p>
+
 </div>
 
 <div class="card">
+
+<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+
 <h3>Pizza</h3>
-<p>Hot cheesy pizza</p>
+
 <p>₹299</p>
+
 </div>
 
 <div class="card">
+
+<img src="https://images.unsplash.com/photo-1601924638867-3ec2f8a33d3b">
+
 <h3>Noodles</h3>
-<p>Chinese style noodles</p>
+
 <p>₹199</p>
+
 </div>
 
 </div>
 
 </section>
+
+<!-- PARALLAX -->
+
+<div class="food-parallax">
+
+DELICIOUS FOOD EXPERIENCE
+
+</div>
 
 <!-- GALLERY -->
 
-<section class="gallery reveal">
+<section id="gallery" class="reveal">
 
-<h2>Our Food</h2>
+<h2>Food Gallery</h2>
 
-<div class="gallery-container">
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
 
 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
+
 <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-<img src="https://images.unsplash.com/photo-1601924638867-3ec2f8a33d3b">
 
 </div>
 
 </section>
 
-<!-- WHATSAPP BUTTON -->
+<!-- WHATSAPP -->
 
 <a class="whatsapp" href="https://wa.me/919999999999" target="_blank">
-Order on WhatsApp
-</a>
 
-<!-- SCROLL SCRIPT -->
+Order Now
+
+</a>
 
 <script>
 
@@ -258,8 +378,10 @@ var reveals=document.querySelectorAll(".reveal");
 for(var i=0;i<reveals.length;i++){
 
 var windowHeight=window.innerHeight;
+
 var elementTop=reveals[i].getBoundingClientRect().top;
-var elementVisible=120;
+
+var elementVisible=100;
 
 if(elementTop < windowHeight - elementVisible){
 
@@ -276,4 +398,5 @@ window.addEventListener("scroll",reveal);
 </script>
 
 </body>
+
 </html>
