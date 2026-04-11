@@ -2,17 +2,28 @@
 <html>
 
 <head>
-<title>My Restaurant</title>
+<title>Half Fried Restaurant</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 
-<body style="margin:0;font-family:Arial;background:#111;color:white;text-align:center;">
+<style>
 
-<h1 style="font-size:50px;margin-top:100px;">HALF FRIED</h1>
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+}
 
-<p style="font-size:20px;">Best Burgers • Fast Food • Chinese</p>
+.hero{
+padding:120px 20px;
+}
 
-<button style="
+.hero h1{
+font-size:50px;
+}
+
+button{
 padding:15px 30px;
 font-size:18px;
 background:red;
@@ -21,9 +32,70 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 margin-top:20px;
-">
-Order Now
-</button>
+}
+
+.menu{
+margin-top:80px;
+}
+
+.menu-container{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.card{
+background:#222;
+padding:20px;
+border-radius:10px;
+width:200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<h1>HALF FRIED</h1>
+
+<p>Best Burgers • Fast Food • Chinese</p>
+
+<button>Order Now</button>
+
+</div>
+
+<div class="menu">
+
+<h2 style="font-size:35px;">Our Menu</h2>
+
+<div class="menu-container">
+
+<div class="card">
+<h3>Burger</h3>
+<p>Juicy grilled burger with cheese</p>
+<p>₹149</p>
+</div>
+
+<div class="card">
+<h3>Pizza</h3>
+<p>Hot cheesy pizza</p>
+<p>₹299</p>
+</div>
+
+<div class="card">
+<h3>Noodles</h3>
+<p>Chinese style noodles</p>
+<p>₹199</p>
+</div>
+
+</div>
+
+</div>
 
 </body>
 
