@@ -1,240 +1,167 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>For You ❤️</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>🔥 Adventure Quest</title>
 
 <style>
-
-body{
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#ff758c,#ff7eb3);
-font-family:Poppins;
-color:white;
-text-align:center;
-overflow:hidden;
+body {
+  background: #0f172a;
+  color: #fff;
+  font-family: Arial;
+  text-align: center;
 }
 
-.container{
-max-width:500px;
-z-index:2;
+.game-container {
+  margin-top: 50px;
 }
 
-h1{
-font-size:60px;
-font-family:Pacifico;
-animation:fade 2s;
+#story {
+  font-size: 20px;
+  margin: 20px;
 }
 
-h2{
-font-size:35px;
+#stats {
+  margin: 10px;
+  font-size: 16px;
 }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  background: #22c55e;
+  color: black;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
-button{
-padding:15px 35px;
-font-size:22px;
-margin:10px;
-border:none;
-border-radius:12px;
-cursor:pointer;
+button:hover {
+  background: #16a34a;
 }
-
-#yes{
-background:#00e676;
-}
-
-#no{
-background:#ff1744;
-position:absolute;
-}
-
-.hidden{
-display:none;
-}
-
-.message{
-font-size:26px;
-margin-top:20px;
-}
-
-/* hearts */
-
-.heart{
-position:absolute;
-top:-20px;
-font-size:24px;
-animation:fall linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(110vh);
-opacity:0;
-}
-}
-
-/* confetti */
-
-.confetti{
-position:absolute;
-width:10px;
-height:10px;
-background:white;
-animation:explode 2s linear forwards;
-}
-
-@keyframes explode{
-to{
-transform:translateY(300px) rotate(720deg);
-opacity:0;
-}
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<div class="game-container">
+  <h1>⚔️ Adventure Quest</h1>
 
-<h1 id="hello">Hey Love this side shivam singh rajput  ❤️</h1>
-
-<h2 id="question" class="hidden">Do you love me?</h2>
-
-<div id="buttons" class="hidden">
-
-<button id="yes" onclick="yesClick()">YES 💖</button>
-
-<button id="no">NO 😅</button>
-
-</div>
-
-<div id="result" class="hidden message"></div>
-
+  <div id="stats"></div>
+  <div id="story"></div>
+  <div id="choices"></div>
 </div>
 
 <script>
+const story = document.getElementById("story");
+const choices = document.getElementById("choices");
+const stats = document.getElementById("stats");
 
-/* show question */
+let gameState = {
+  health: 100,
+  inventory: []
+};
 
-setTimeout(()=>{
+// SCENES
+const scenes = {
+  start: {
+    text: "🌲 You wake up in a dark forest. Two paths ahead.",
+    options: [
+      { text: "Go Left 🌊", next: "river" },
+      { text: "Go Right 🕳️", next: "cave" }
+    ]
+  },
 
-document.getElementById("question").classList.remove("hidden")
-document.getElementById("buttons").classList.remove("hidden")
+  river: {
+    text: "🌊 You reached a river. You see a boat.",
+    options: [
+      { text: "Take Boat 🚤", next: "treasure" },
+      { text: "Swim 🏊", next: "death" }
+    ]
+  },
 
-},2500)
+  cave: {
+    text: "🕳️ You enter a cave. A monster appears!",
+    options: [
+      { text: "Fight ⚔️", next: "fightMonster" },
+      { text: "Run 🏃", next: "start" }
+    ]
+  },
 
-/* YES click */
+  fightMonster: {
+    text: "⚔️ You fight bravely!",
+    action: () => {
+      if (Math.random() > 0.5) {
+        gameState.inventory.push("Monster Tooth 🦷");
+        return "winFight";
+      } else {
+        gameState.health -= 50;
+        return gameState.health > 0 ? "start" : "death";
+      }
+    }
+  },
 
-function yesClick(){
+  winFight: {
+    text: "🔥 You defeated the monster! You got a rare item.",
+    options: [
+      { text: "Continue ➡️", next: "treasure" }
+    ]
+  },
 
-document.getElementById("result").classList.remove("hidden")
+  treasure: {
+    text: "💰 You found the treasure! YOU WIN!",
+    options: [
+      { text: "Restart 🔁", next: "restart" }
+    ]
+  },
 
-document.getElementById("result").innerHTML=
+  death: {
+    text: "💀 You died! Game Over.",
+    options: [
+      { text: "Restart 🔁", next: "restart" }
+    ]
+  },
 
-"Yay! ❤️<br><br>\
-You jbhakk chinar dikh rahe hai halanki chinar wala harakkat kr dete hai wo alag baat hai  ✨<br><br>\
-Are you Google? Because you have everything I've been searching for 😍<br><br>\
-If loving you was a job, I'd never take a day off 💖<br><br>\
-Life feels brighter with you in it ❤️"
+  restart: {
+    action: () => {
+      gameState = { health: 100, inventory: [] };
+      return "start";
+    }
+  }
+};
 
-createConfetti()
-
+// UPDATE UI
+function updateStats() {
+  stats.innerHTML = 
+    "❤️ Health: " + gameState.health + 
+    " | 🎒 Inventory: " + (gameState.inventory.join(", ") || "Empty");
 }
 
-/* NO button run away */
+// LOAD SCENE
+function loadScene(sceneKey) {
+  const scene = scenes[sceneKey];
 
-let no=document.getElementById("no")
+  if (scene.action) {
+    return loadScene(scene.action());
+  }
 
-let attempts=0
+  story.innerText = scene.text;
+  choices.innerHTML = "";
 
-no.addEventListener("mouseover",function(){
+  updateStats();
 
-if(attempts<50){
-
-let x=Math.random()*window.innerWidth-100
-let y=Math.random()*window.innerHeight-100
-
-no.style.left=x+"px"
-no.style.top=y+"px"
-
-attempts++
-
+  scene.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.innerText = option.text;
+    btn.onclick = () => loadScene(option.next);
+    choices.appendChild(btn);
+  });
 }
 
-})
-
-/* hearts animation */
-
-function createHeart(){
-
-let heart=document.createElement("div")
-
-heart.classList.add("heart")
-
-heart.innerHTML="❤️"
-
-heart.style.left=Math.random()*100+"vw"
-
-heart.style.animationDuration=(Math.random()*3+3)+"s"
-
-document.body.appendChild(heart)
-
-setTimeout(()=>{
-
-heart.remove()
-
-},6000)
-
-}
-
-setInterval(createHeart,300)
-
-/* confetti fireworks */
-
-function createConfetti(){
-
-for(let i=0;i<80;i++){
-
-let confetti=document.createElement("div")
-
-confetti.classList.add("confetti")
-
-confetti.style.left=Math.random()*100+"vw"
-
-confetti.style.top=Math.random()*50+"vh"
-
-confetti.style.background="hsl("+Math.random()*360+",100%,50%)"
-
-document.body.appendChild(confetti)
-
-setTimeout(()=>{
-
-confetti.remove()
-
-},2000)
-
-}
-
-}
-
+// START GAME
+loadScene("start");
 </script>
 
 </body>
-
 </html>
