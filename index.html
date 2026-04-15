@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cricket Game</title>
+<title>3D Cricket Game</title>
 <style>
-body {
-  margin: 0;
-  background: green;
-  overflow: hidden;
-  font-family: Arial;
-}
-canvas {
-  display: block;
-}
+body { margin: 0; overflow: hidden; }
 #score {
   position: absolute;
   top: 10px;
@@ -24,94 +16,99 @@ canvas {
 <body>
 
 <div id="score">Score: 0</div>
-<canvas id="game"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+let renderer = new THREE.WebGLRenderer();
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-let ball = { x: canvas.width, y: canvas.height/2, speed: 8 };
-let bat = { x: 100, y: canvas.height/2 };
+// Light
+let light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(0, 50, 50);
+scene.add(light);
+
+// Ground
+let groundGeo = new THREE.PlaneGeometry(200, 200);
+let groundMat = new THREE.MeshPhongMaterial({ color: 0x228B22 });
+let ground = new THREE.Mesh(groundGeo, groundMat);
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+
+// Pitch
+let pitchGeo = new THREE.BoxGeometry(5, 0.1, 40);
+let pitchMat = new THREE.MeshPhongMaterial({ color: 0xdeb887 });
+let pitch = new THREE.Mesh(pitchGeo, pitchMat);
+pitch.position.y = 0.05;
+scene.add(pitch);
+
+// Bat
+let batGeo = new THREE.BoxGeometry(1, 8, 0.5);
+let batMat = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+let bat = new THREE.Mesh(batGeo, batMat);
+bat.position.set(-10, 4, 0);
+scene.add(bat);
+
+// Ball
+let ballGeo = new THREE.SphereGeometry(0.5, 32, 32);
+let ballMat = new THREE.MeshPhongMaterial({ color: 0xffffff });
+let ball = new THREE.Mesh(ballGeo, ballMat);
+scene.add(ball);
+
+let ballSpeed = 0.5;
 let score = 0;
-let gameOver = false;
 
-// Mouse move = bat control
+function resetBall() {
+  ball.position.set(20, 1, 0);
+  ballSpeed += 0.02;
+}
+
+resetBall();
+
+// Camera
+camera.position.set(-20, 10, 20);
+camera.lookAt(0,0,0);
+
+// Controls (bat move)
 window.addEventListener("mousemove", (e) => {
-  bat.y = e.y;
+  let y = (e.clientY / window.innerHeight) * 10;
+  bat.position.y = y;
 });
 
-// Hit action
+// Hit
 window.addEventListener("click", () => {
-  if(gameOver) return;
+  let dist = bat.position.distanceTo(ball.position);
 
-  if(Math.abs(ball.y - bat.y) < 50 && ball.x < 200){
-    let runs = Math.floor(Math.random() * 6) + 1;
+  if(dist < 3){
+    let runs = Math.floor(Math.random()*6)+1;
+    score += runs;
+    document.getElementById("score").innerText = "Score: " + score;
 
-    if(runs >= 5){
-      score += 6;
-      alert("SIX!! 🔥");
-    } else if(runs >= 4){
-      score += 4;
-      alert("FOUR!! 🚀");
-    } else {
-      score += runs;
-      alert(runs + " runs");
-    }
-
+    alert("Hit! " + runs + " runs 🏏");
     resetBall();
   }
 });
 
-function resetBall(){
-  ball.x = canvas.width;
-  ball.y = Math.random() * canvas.height;
-  ball.speed += 0.5;
-}
+// Animation
+function animate(){
+  requestAnimationFrame(animate);
 
-function drawBat(){
-  ctx.fillStyle = "brown";
-  ctx.fillRect(bat.x, bat.y - 50, 20, 100);
-}
+  ball.position.x -= ballSpeed;
 
-function drawBall(){
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
-  ctx.fillStyle = "white";
-  ctx.fill();
-}
-
-function update(){
-  if(gameOver) return;
-
-  ball.x -= ball.speed;
-
-  // OUT condition
-  if(ball.x < 0){
-    gameOver = true;
+  // OUT
+  if(ball.position.x < -20){
     alert("OUT! Final Score: " + score);
     location.reload();
   }
+
+  renderer.render(scene, camera);
 }
 
-function draw(){
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  drawBat();
-  drawBall();
-
-  document.getElementById("score").innerText = "Score: " + score;
-}
-
-function gameLoop(){
-  update();
-  draw();
-  requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
+animate();
 </script>
 
 </body>
