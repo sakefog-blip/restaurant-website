@@ -1,94 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Galaxy Simulator</title>
+<title>Cricket Game</title>
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: black;
-    }
-    canvas {
-        display: block;
-    }
+body {
+  margin: 0;
+  background: green;
+  overflow: hidden;
+  font-family: Arial;
+}
+canvas {
+  display: block;
+}
+#score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-size: 24px;
+}
 </style>
 </head>
 <body>
 
-<canvas id="canvas"></canvas>
+<div id="score">Score: 0</div>
+<canvas id="game"></canvas>
 
 <script>
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particles = [];
-let mouse = { x: null, y: null };
+let ball = { x: canvas.width, y: canvas.height/2, speed: 8 };
+let bat = { x: 100, y: canvas.height/2 };
+let score = 0;
+let gameOver = false;
 
+// Mouse move = bat control
 window.addEventListener("mousemove", (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
+  bat.y = e.y;
 });
 
+// Hit action
 window.addEventListener("click", () => {
-    for (let i = 0; i < 100; i++) {
-        particles.push(new Particle(mouse.x, mouse.y));
+  if(gameOver) return;
+
+  if(Math.abs(ball.y - bat.y) < 50 && ball.x < 200){
+    let runs = Math.floor(Math.random() * 6) + 1;
+
+    if(runs >= 5){
+      score += 6;
+      alert("SIX!! 🔥");
+    } else if(runs >= 4){
+      score += 4;
+      alert("FOUR!! 🚀");
+    } else {
+      score += runs;
+      alert(runs + " runs");
     }
+
+    resetBall();
+  }
 });
 
-class Particle {
-    constructor(x, y) {
-        this.x = x || Math.random() * canvas.width;
-        this.y = y || Math.random() * canvas.height;
-        this.size = Math.random() * 3;
-        this.speedX = (Math.random() - 0.5) * 2;
-        this.speedY = (Math.random() - 0.5) * 2;
-    }
-
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Mouse attraction
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 150) {
-            this.x += dx / 20;
-            this.y += dy / 20;
-        }
-    }
-
-    draw() {
-        ctx.fillStyle = "white";
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
+function resetBall(){
+  ball.x = canvas.width;
+  ball.y = Math.random() * canvas.height;
+  ball.speed += 0.5;
 }
 
-// Initial particles
-for (let i = 0; i < 800; i++) {
-    particles.push(new Particle());
+function drawBat(){
+  ctx.fillStyle = "brown";
+  ctx.fillRect(bat.x, bat.y - 50, 20, 100);
 }
 
-function animate() {
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach((p, i) => {
-        p.update();
-        p.draw();
-    });
-
-    requestAnimationFrame(animate);
+function drawBall(){
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
+  ctx.fillStyle = "white";
+  ctx.fill();
 }
 
-animate();
+function update(){
+  if(gameOver) return;
+
+  ball.x -= ball.speed;
+
+  // OUT condition
+  if(ball.x < 0){
+    gameOver = true;
+    alert("OUT! Final Score: " + score);
+    location.reload();
+  }
+}
+
+function draw(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawBat();
+  drawBall();
+
+  document.getElementById("score").innerText = "Score: " + score;
+}
+
+function gameLoop(){
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
 </script>
 
 </body>
