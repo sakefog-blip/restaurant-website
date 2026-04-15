@@ -1,154 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🔥 Mini Battle Royale</title>
-
+<title>Galaxy Simulator</title>
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  background: black;
-}
-
-canvas {
-  display: block;
-}
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+    }
+    canvas {
+        display: block;
+    }
 </style>
 </head>
-
 <body>
 
-<canvas id="game"></canvas>
+<canvas id="canvas"></canvas>
 
 <script>
-const canvas = document.getElementById("game");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// PLAYER
-const player = {
-  x: canvas.width / 2,
-  y: canvas.height / 2,
-  size: 20,
-  color: "lime",
-  speed: 5,
-  health: 100
-};
+let particles = [];
+let mouse = { x: null, y: null };
 
-// ENEMY
-const enemy = {
-  x: 100,
-  y: 100,
-  size: 20,
-  color: "red",
-  speed: 2,
-  health: 100
-};
-
-// BULLETS
-let bullets = [];
-
-// CONTROLS
-let keys = {};
-
-document.addEventListener("keydown", e => keys[e.key] = true);
-document.addEventListener("keyup", e => keys[e.key] = false);
-
-// SHOOT
-document.addEventListener("click", e => {
-  bullets.push({
-    x: player.x,
-    y: player.y,
-    dx: (e.clientX - player.x) / 20,
-    dy: (e.clientY - player.y) / 20
-  });
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
 });
 
-// GAME LOOP
-function update() {
-
-  // PLAYER MOVEMENT
-  if (keys["w"]) player.y -= player.speed;
-  if (keys["s"]) player.y += player.speed;
-  if (keys["a"]) player.x -= player.speed;
-  if (keys["d"]) player.x += player.speed;
-
-  // ENEMY FOLLOW
-  let dx = player.x - enemy.x;
-  let dy = player.y - enemy.y;
-  let dist = Math.sqrt(dx*dx + dy*dy);
-
-  enemy.x += dx / dist * enemy.speed;
-  enemy.y += dy / dist * enemy.speed;
-
-  // BULLETS MOVE
-  bullets.forEach(b => {
-    b.x += b.dx;
-    b.y += b.dy;
-  });
-
-  // COLLISION
-  bullets.forEach((b, i) => {
-    let dx = b.x - enemy.x;
-    let dy = b.y - enemy.y;
-    if (Math.sqrt(dx*dx + dy*dy) < enemy.size) {
-      enemy.health -= 10;
-      bullets.splice(i, 1);
+window.addEventListener("click", () => {
+    for (let i = 0; i < 100; i++) {
+        particles.push(new Particle(mouse.x, mouse.y));
     }
-  });
+});
 
-  // ENEMY DAMAGE PLAYER
-  if (dist < 30) {
-    player.health -= 0.5;
-  }
+class Particle {
+    constructor(x, y) {
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || Math.random() * canvas.height;
+        this.size = Math.random() * 3;
+        this.speedX = (Math.random() - 0.5) * 2;
+        this.speedY = (Math.random() - 0.5) * 2;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Mouse attraction
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+            this.x += dx / 20;
+            this.y += dy / 20;
+        }
+    }
+
+    draw() {
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
 }
 
-// DRAW
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // PLAYER
-  ctx.fillStyle = player.color;
-  ctx.fillRect(player.x, player.y, player.size, player.size);
-
-  // ENEMY
-  ctx.fillStyle = enemy.color;
-  ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
-
-  // BULLETS
-  ctx.fillStyle = "yellow";
-  bullets.forEach(b => {
-    ctx.fillRect(b.x, b.y, 5, 5);
-  });
-
-  // HEALTH
-  ctx.fillStyle = "white";
-  ctx.fillText("Player HP: " + Math.floor(player.health), 20, 20);
-  ctx.fillText("Enemy HP: " + enemy.health, 20, 40);
+// Initial particles
+for (let i = 0; i < 800; i++) {
+    particles.push(new Particle());
 }
 
-// GAME LOOP
-function gameLoop() {
-  update();
-  draw();
+function animate() {
+    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if (player.health <= 0) {
-    alert("💀 You Died!");
-    location.reload();
-  }
+    particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+    });
 
-  if (enemy.health <= 0) {
-    alert("🏆 You Win!");
-    location.reload();
-  }
-
-  requestAnimationFrame(gameLoop);
+    requestAnimationFrame(animate);
 }
 
-gameLoop();
+animate();
 </script>
 
 </body>
